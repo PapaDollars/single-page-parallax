@@ -1,2 +1,5 @@
 # single-page-parallax
-React + Vite + Tailwindcss
+
+React : 18.2.0
+Vite : 6.3.5
+Tailwindcss : 4.1.5
