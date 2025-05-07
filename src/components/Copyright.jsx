@@ -8,7 +8,7 @@ const Copyright = () => {
   return (
     <div className="bg-teal-darken py-4 border-t border-teal-lighten-1">
       <div className="container mx-auto">
-        <div className="text-center text-gray-200">
+        <div className="text-center text-black">
           {copyright.text}{' '}
           <a 
             href={copyright.link.url} 
