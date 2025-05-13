@@ -1,42 +1,54 @@
-// src/pages/Parallax2.jsx
+// src/pages/Parallax2.jsx - Version corrigée
 import { parallaxData } from '../data/siteData';
-import backgroundImage from '../assets/images/background3.jpg';
-import { useEffect, useRef } from 'react';
+import backgroundImage from '../assets/images/Parallax2.jpg';
+import { useEffect, useRef, useState } from 'react';
 
 const Parallax2 = () => {
   const { text } = parallaxData[1];
-  const parallaxRef = useRef(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (parallaxRef.current) {
-        const scrollPosition = window.pageYOffset;
-        const parallaxElement = parallaxRef.current.querySelector('img');
-        // L'effet parallax: déplace l'image à une vitesse différente du défilement
-        parallaxElement.style.transform = `translateY(${scrollPosition * 0.4}px)`;
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <section className="relative overflow-hidden" style={{ height: '300px' }}>
-      <div className="absolute inset-0 z-0" ref={parallaxRef}>
-        <img 
-          src={backgroundImage} 
-          alt="Background" 
-          className="w-full h-full object-cover"
-          style={{ transform: 'translateY(0)', minHeight: '130%' }} 
+    <section 
+      className="relative overflow-hidden cursor-pointer" 
+      style={{ height: '400px' }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Couches d'arrière-plan avec transitions */}
+      <div className="absolute inset-0 transition-all duration-1000 ease-in-out">
+        <div 
+          className={`absolute inset-0 bg-cover bg-center transition-transform duration-1000 ${isHovered ? 'scale-110 rotate-2' : 'scale-100'}`}
+          style={{ backgroundImage: `url(${backgroundImage})` }}
         />
+        <div className={`absolute inset-0 transition-all duration-1000 ${isHovered ? 'bg-blue-900/60' : 'bg-green-900/60'}`}></div>
       </div>
-      <div className="relative z-10 flex items-center justify-center h-full w-full bg-black bg-opacity-50">
-        <div className="container mx-auto">
+
+      {/* Formes animées */}
+      <div className="absolute inset-0">
+        <div className={`absolute w-48 h-48 transition-all duration-2000 ${isHovered ? 'scale-150 rotate-180' : 'scale-100'}`}
+             style={{ 
+               left: '10%', 
+               top: '20%',
+               background: 'linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))',
+               clipPath: isHovered ? 'circle(50% at 50% 50%)' : 'polygon(50% 0%, 0% 100%, 100% 100%)'
+             }}>
+        </div>
+        <div className={`absolute w-32 h-32 transition-all duration-1500 ${isHovered ? 'scale-125 -rotate-90' : 'scale-100'}`}
+             style={{ 
+               right: '15%', 
+               top: '30%',
+               background: 'linear-gradient(45deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.1))',
+               borderRadius: isHovered ? '50%' : '0%'
+             }}>
+        </div>
+      </div>
+
+      <div className="relative z-10 flex items-center justify-center h-full">
+        <div className="container mx-auto px-4">
           <div className="text-center">
-            <h5 className="text-2xl font-light text-white">{text}</h5>
+            <h5 className={`text-2xl md:text-3xl font-light text-white transition-all duration-700 ${isHovered ? 'scale-110 text-yellow-300' : 'scale-100'}`}>
+              {text}
+            </h5>
           </div>
         </div>
       </div>
